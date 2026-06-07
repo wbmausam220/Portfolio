@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="Mausam Verma - MCA AI & ML Portfolio. Showcasing projects, skills, and certifications in Artificial Intelligence and Machine Learning.">
+  <title>Mausam Verma | AI & ML Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: #0B0F19;
+      color: #F1F5F9;
+      transition: background 0.3s, color 0.3s;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    body.light-mode {
+      background: #FAFAFB;
+      color: #1E293B;
+    }
+
+    code, .mono-text, #typingEffect, .tech-tag {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    #particle-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .content-wrapper {
+      position: relative;
+      z-index: 2;
+    }
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      background: rgba(11, 15, 25, 0.85);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      z-index: 1000;
+      padding: 16px 0;
+    }
+    body.light-mode .navbar {
+      background: rgba(250, 250, 251, 0.85);
+      border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+    }
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      font-weight: 700;
+      font-size: 1.2rem;
+      letter-spacing: -0.5px;
+      color: #2563EB;
+    }
+    .nav-menu {
+      display: flex;
+      gap: 28px;
+      align-items: center;
+      list-style: none;
+    }
+    .nav-link {
+      color: #94A3B8;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+    .nav-link:hover {
+      color: #2563EB;
+    }
+    body.light-mode .nav-link {
+      color: #64748B;
+    }
+    body.light-mode .nav-link:hover {
+      color: #2563EB;
+    }
+
+    .structural-card {
+      background: #111827;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+    }
+    body.light-mode .structural-card {
+      background: #FFFFFF;
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      box-shadow: 0 4px 20px -5px rgba(15, 23, 42, 0.03);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    section {
+      padding: 100px 0 50px 0;
+      position: relative;
+    }
+
+    .section-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 35px;
+      letter-spacing: -0.5px;
+      color: #F8FAFC;
+    }
+    body.light-mode .section-title {
+      color: #0F172A;
+    }
+
+    #loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #0B0F19;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.3s ease, visibility 0.3s;
+    }
+    body.light-mode #loading-screen {
+      background: #FAFAFB;
+    }
+    .loader {
+      width: 35px;
+      height: 35px;
+      border: 2px solid rgba(37, 99, 235, 0.1);
+      border-top: 2px solid #2563EB;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    .hero {
+      min-height: 85vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      flex-direction: column;
+      padding-top: 60px;
+    }
+    .profile-img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid rgba(37, 99, 235, 0.3);
+      margin-bottom: 20px;
+    }
+    .typing-text {
+      font-size: 1.3rem;
+      font-weight: 500;
+      color: #2563EB;
+      min-height: 2.2rem;
+      margin-top: 6px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.88rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .btn-secondary {
+      background: #1F2937;
+      color: #E5E7EB;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .btn-primary {
+      background: #2563EB;
+      color: #FFFFFF;
+      border: none;
+    }
+    body.light-mode .btn-secondary {
+      color: #1E293B;
+      background: #F1F5F9;
+      border: 1px solid rgba(15, 23, 42, 0.08);
+    }
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+    }
+
+    .skill-info {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .skill-info h3 {
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+    .progress {
+      height: 4px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    body.light-mode .progress {
+      background: rgba(0, 0, 0, 0.06);
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: #2563EB;
+      border-radius: 2px;
+      transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    .project-card, .cert-card {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .project-card:hover, .cert-card:hover {
+      border-color: rgba(37, 99, 235, 0.3);
+    }
+
+    .tech-tag {
+      font-size: 0.75rem;
+      background: rgba(37, 99, 235, 0.08);
+      color: #2563EB;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    .timeline-item {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 24px;
+      position: relative;
+      padding-left: 24px;
+      border-left: 2px solid rgba(37, 99, 235, 0.3);
+    }
+    .timeline-item h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .contact-details-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    .contact-detail-card {
+      padding: 16px;
+      text-align: center;
+    }
+    .contact-detail-card i {
+      font-size: 1.2rem;
+      color: #2563EB;
+      margin-bottom: 6px;
+    }
+    .contact-detail-card p {
+      font-size: 0.88rem;
+      color: #94A3B8;
+    }
+    body.light-mode .contact-detail-card p {
+      color: #475569;
+    }
+
+    .theme-toggle {
+      background: none;
+      cursor: pointer;
+      color: #94A3B8;
+      font-size: 1rem;
+      border: none;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 12px 14px;
+      background: #1F2937;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #FFFFFF;
+      border-radius: 8px;
+      outline: none;
+      font-family: inherit;
+      font-size: 0.9rem;
+    }
+    .form-input:focus {
+      border-color: #2563EB;
+    }
+    body.light-mode .form-input {
+      background: #FFFFFF;
+      border: 1px solid #CBD5E1;
+      color: #0F172A;
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      font-size: 0.85rem;
+      color: #64748B;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    @media (max-width: 768px) {
+      .nav-menu { display: none; }
+      .section-title { font-size: 1.6rem; }
+      .hero h1 { font-size: 2.4rem !important; }
+    }
+  </style>
+</head>
+<body>
+  <div id="loading-screen"><div class="loader"></div></div>
+  <canvas id="particle-canvas"></canvas>
+  
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo">Mausam Verma</div>
+      <ul class="nav-menu">
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#education" class="nav-link">Education</a></li>
+        <li><a href="#skills" class="nav-link">Skills</a></li>
+        <li><a href="#certs" class="nav-link">Certifications</a></li>
+        <li><a href="#projects" class="nav-link">Projects</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+        <li><button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="content-wrapper">
+    <div class="container">
+      
+      <section class="hero" id="home">
+        <img src="./Mausam.jpeg" alt="Mausam Verma" class="profile-img">
+        <h1 style="font-size: 2.8rem; font-weight: 700; letter-spacing: -0.5px;">Mausam Verma</h1>
+        <p style="font-size: 1.15rem; margin: 6px 0; color: #64748B; font-weight: 500;">MCA (AI & ML) Student</p>
+        <div class="typing-text" id="typingEffect"></div>
+        <div style="margin-top: 30px; display: flex; gap: 14px;">
+          <a href="#contact" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Contact Me</a>
+          <a href="#projects" class="btn btn-secondary"><i class="fas fa-code"></i> View Work</a>
+        </div>
+      </section>
+
+      <section id="about">
+        <h2 class="section-title">About Me</h2>
+        <div class="structural-card" style="padding: 35px; max-width: 800px; margin: 0 auto;">
+          <p style="font-size: 1rem; margin-bottom: 20px; opacity: 0.9;">I am a dedicated MCA student specializing in AI/ML with a solid foundation in web development. My hands-on experience in various projects has honed my skills in Java, web design, and data analytics. I am passionate about technology and continuously seek opportunities to enhance my skills and contribute effectively within a team. My journey in academia, along with my participation in relevant courses, positions me well for challenges in the tech field.</p>
+          <p style="margin-bottom: 16px; font-size: 0.95rem;"><strong>Career Objective:</strong> To secure an advanced role in AI/ML engineering pipelines where I can build predictive architectures, integrate intelligent agents, and drive end-to-end data pipelines effectively.</p>
+          <div style="font-size: 0.9rem; color: #64748B;"><strong>Core Strengths:</strong> Agile collaboration, system infrastructure analysis, scalable algorithm optimization, and deterministic debug execution.</div>
+        </div>
+      </section>
+
+      <section id="education">
+        <h2 class="section-title">Education</h2>
+        <div class="structural-card" style="padding: 35px; max-width: 800px; margin: 0 auto;">
+          <div class="timeline-item">
+            <div>
+              <h3>Master Of Computer Applications (MCA) in AI & ML</h3>
+              <p style="color: #2563EB; font-size: 0.9rem; margin: 4px 0; font-weight: 500;">2025 - 2027 | Galgotias University</p>
+            </div>
+          </div>
+          <div class="timeline-item" style="margin-bottom: 0;">
+            <div>
+              <h3>Bachelor of Computer Applications (BCA)</h3>
+              <p style="color: #2563EB; font-size: 0.9rem; margin: 4px 0; font-weight: 500;">2022 - 2025 | Shri Ramswaroop Memorial University, Lucknow</p>
+              <p style="font-size: 0.9rem; opacity: 0.8;">CGPA: 7.22</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="skills">
+        <h2 class="section-title">Technical Skills</h2>
+        <div class="grid-3">
+          <div class="structural-card" style="padding: 20px;">
+            <div class="skill-info"><h3>HTML/CSS/JS</h3><span>92%</span></div>
+            <div class="progress"><div class="progress-fill" data-width="92"></div></div>
+          </div>
+          <div class="structural-card" style="padding: 20px;">
+            <div class="skill-info"><h3>Python</h3><span>90%</span></div>
+            <div class="progress"><div class="progress-fill" data-width="90"></div></div>
+          </div>
+          <div class="structural-card" style="padding: 20px;">
+            <div class="skill-info"><h3>Java</h3><span>85%</span></div>
+            <div class="progress"><div class="progress-fill" data-width="85"></div></div>
+          </div>
+          <div class="structural-card" style="padding: 20px;">
+            <div class="skill-info"><h3>C</h3><span>90%</span></div>
+            <div class="progress"><div class="progress-fill" data-width="90"></div></div>
+          </div>
+          <div class="structural-card" style="padding: 20px;">
+            <div class="skill-info"><h3>SQL</h3><span>88%</span></div>
+            <div class="progress"><div class="progress-fill" data-width="88"></div></div>
+          </div>
+          <div class="structural-card" style="padding: 20px;">
+            <div class="skill-info"><h3>Machine Learning</h3><span>85%</span></div>
+            <div class="progress"><div class="progress-fill" data-width="85"></div></div>
+          </div>
+          <div class="structural-card" style="padding: 20px;">
+            <div class="skill-info"><h3>Data Science</h3><span>80%</span></div>
+            <div class="progress"><div class="progress-fill" data-width="80"></div></div>
+          </div>
+          <div class="structural-card" style="padding: 20px;">
+            <div class="skill-info"><h3>MongoDB</h3><span>75%</span></div>
+            <div class="progress"><div class="progress-fill" data-width="75"></div></div>
+          </div>
+          <div class="structural-card" style="padding: 20px;">
+            <div class="skill-info"><h3>Node.js/React.js</h3><span>70%</span></div>
+            <div class="progress"><div class="progress-fill" data-width="70"></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="certs">
+        <h2 class="section-title">Certifications</h2>
+        <div class="grid-3">
+          
+          <div class="structural-card cert-card">
+            <div>
+              <i class="fas fa-cloud fa-lg" style="color: #2563EB; margin-bottom: 12px;"></i>
+              <h3 style="font-size: 1.05rem; margin-bottom: 4px;">Generative AI Foundations</h3>
+              <p style="font-size: 0.85rem; opacity: 0.8;">AWS Academy | 12 Hours</p>
+              <p style="font-size: 0.75rem; opacity: 0.6; margin-top: 4px;">Issued: May 15, 2026</p>
+            </div>
+            <a href="GEN AI.pdf" class="btn btn-secondary" style="margin-top:16px; justify-content: center;" target="_blank"><i class="fas fa-external-link-alt"></i> View Badge</a>
+          </div>
+
+          <div class="structural-card cert-card">
+            <div>
+              <i class="fas fa-brain fa-lg" style="color: #2563EB; margin-bottom: 12px;"></i>
+              <h3 style="font-size: 1.05rem; margin-bottom: 4px;">Machine Learning Foundations</h3>
+              <p style="font-size: 0.85rem; opacity: 0.8;">AWS Academy | 20 Hours</p>
+              <p style="font-size: 0.75rem; opacity: 0.6; margin-top: 4px;">Issued: May 16, 2026</p>
+            </div>
+            <a href="ML.pdf" class="btn btn-secondary" style="margin-top:16px; justify-content: center;" target="_blank"><i class="fas fa-external-link-alt"></i> View Badge</a>
+          </div>
+
+          <div class="structural-card cert-card">
+            <div>
+              <i class="fas fa-robot fa-lg" style="color: #2563EB; margin-bottom: 12px;"></i>
+              <h3 style="font-size: 1.05rem; margin-bottom: 4px;">Introduction to Artificial Intelligence</h3>
+              <p style="font-size: 0.85rem; opacity: 0.8;">IBM SkillsBuild</p>
+              <p style="font-size: 0.75rem; opacity: 0.6; margin-top: 4px;">Date: 01 Oct 2024</p>
+            </div>
+            <a href="./INTRODUCTION TO AI.jpeg" class="btn btn-secondary" style="margin-top:16px; justify-content: center;" target="_blank"><i class="fas fa-download"></i> Certificate</a>
+          </div>
+
+          <div class="structural-card cert-card">
+            <div>
+              <i class="fas fa-chart-pie fa-lg" style="color: #2563EB; margin-bottom: 12px;"></i>
+              <h3 style="font-size: 1.05rem; margin-bottom: 4px;">Data Science Methodology</h3>
+              <p style="font-size: 0.85rem; opacity: 0.8;">IBM / SRMCEM</p>
+              <p style="font-size: 0.75rem; opacity: 0.6; margin-top: 4px;">Date: March 28, 2025</p>
+            </div>
+            <a href="https://courses.srmcem.skillsnetwork.site/certificates/9f0fc24c558d49bdb62695c1410bc458" class="btn btn-secondary" style="margin-top:16px; justify-content: center;" target="_blank"><i class="fas fa-external-link-alt"></i> Verify Online</a>
+          </div>
+
+          <div class="structural-card cert-card">
+            <div>
+              <i class="fas fa-file-excel fa-lg" style="color: #2563EB; margin-bottom: 12px;"></i>
+              <h3 style="font-size: 1.05rem; margin-bottom: 4px;">Data Analytics using Excel</h3>
+              <p style="font-size: 0.85rem; opacity: 0.8;">TCS iON / Tata Consultancy Services</p>
+              <p style="font-size: 0.75rem; opacity: 0.6; margin-top: 4px;">Date: 15th July 2023</p>
+            </div>
+            <a href="./DATA ANALYTICS.jpeg" class="btn btn-secondary" style="margin-top:16px; justify-content: center;" target="_blank"><i class="fas fa-download"></i> Certificate</a>
+          </div>
+
+          <div class="structural-card cert-card">
+            <div>
+              <i class="fas fa-laptop-code fa-lg" style="color: #2563EB; margin-bottom: 12px;"></i>
+              <h3 style="font-size: 1.05rem; margin-bottom: 4px;">Responsive Web Design</h3>
+              <p style="font-size: 0.85rem; opacity: 0.8;">L&T EduTech | 28 Hours</p>
+              <p style="font-size: 0.75rem; opacity: 0.6; margin-top: 4px;">HTML, CSS, JS, & Bootstrap 5</p>
+            </div>
+            <a href="./WEB DESIGN.jpeg" class="btn btn-secondary" style="margin-top:16px; justify-content: center;" target="_blank"><i class="fas fa-download"></i> Certificate</a>
+          </div>
+
+          <div class="structural-card cert-card">
+            <div>
+              <i class="fas fa-code fa-lg" style="color: #2563EB; margin-bottom: 12px;"></i>
+              <h3 style="font-size: 1.05rem; margin-bottom: 4px;">Full-Stack Web Dev Bootcamp</h3>
+              <p style="font-size: 0.85rem; opacity: 0.8;">L&T EduTech | 33 Hours</p>
+              <p style="font-size: 0.75rem; opacity: 0.6; margin-top: 4px;">HTML, CSS, JS, PHP, & WordPress</p>
+            </div>
+            <a href="./FULL STACK.jpeg" class="btn btn-secondary" style="margin-top:16px; justify-content: center;" target="_blank"><i class="fas fa-download"></i> Certificate</a>
+          </div>
+
+          <div class="structural-card cert-card">
+            <div>
+              <i class="fas fa-user-graduate fa-lg" style="color: #2563EB; margin-bottom: 12px;"></i>
+              <h3 style="font-size: 1.05rem; margin-bottom: 4px;">Campus Ambassador Internship</h3>
+              <p style="font-size: 0.85rem; opacity: 0.8;">YHills Edutech Pvt. Ltd.</p>
+              <p style="font-size: 0.75rem; opacity: 0.6; margin-top: 4px;">Dec 2022 - Jan 2023</p>
+            </div>
+            <a href="./INTERNSHIP.jpeg" class="btn btn-secondary" style="margin-top:16px; justify-content: center;" target="_blank"><i class="fas fa-download"></i> Offer Letter</a>
+          </div>
+
+        </div>
+      </section>
+
+      <section id="projects">
+        <h2 class="section-title">Projects Portfolio</h2>
+        <div class="grid-3">
+          
+          <div class="structural-card project-card">
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h3 style="font-size: 1.1rem; font-weight: 600;">Make-my-home</h3>
+                <span class="mono-text tech-tag">HTML</span>
+              </div>
+              <p style="font-size: 0.88rem; opacity: 0.8;">Built a Make My Home website showcasing various home design solutions.</p>
+            </div>
+            <div style="margin-top:20px; display: flex; gap: 10px;">
+              <a href="https://github.com/wbmausam220/Make-my-home" class="btn btn-secondary" style="padding: 8px 14px; flex: 1; justify-content: center;" target="_blank"><i class="fab fa-github"></i> Code</a> 
+              <a href="#" class="btn btn-primary" style="padding: 8px 14px; flex: 1; justify-content: center;"><i class="fas fa-external-link-alt"></i> Demo</a>
+            </div>
+          </div>
+
+          <div class="structural-card project-card">
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h3 style="font-size: 1.1rem; font-weight: 600;">bharat-bazaar</h3>
+                <span class="mono-text tech-tag">HTML</span>
+              </div>
+              <p style="font-size: 0.88rem; opacity: 0.8;">An authentic, ethnic Indian e-commerce platform featuring a traditional mandala aesthetic, interactive cart system, dynamic search, and fully validated multiphase checkout.</p>
+            </div>
+            <div style="margin-top:20px; display: flex; gap: 10px;">
+              <a href="https://github.com/wbmausam220/bharat-bazaar" class="btn btn-secondary" style="padding: 8px 14px; flex: 1; justify-content: center;" target="_blank"><i class="fab fa-github"></i> Code</a> 
+              <a href="#" class="btn btn-primary" style="padding: 8px 14px; flex: 1; justify-content: center;"><i class="fas fa-external-link-alt"></i> Demo</a>
+            </div>
+          </div>
+
+          <div class="structural-card project-card">
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h3 style="font-size: 1.1rem; font-weight: 600;">UrbanPulse-Smart-Transit</h3>
+                <span class="mono-text tech-tag">HTML</span>
+              </div>
+              <p style="font-size: 0.88rem; opacity: 0.8;">A smart city application framework designed to track, streamline, and analyze urban transit networks and public transportation metrics.</p>
+            </div>
+            <div style="margin-top:20px; display: flex; gap: 10px;">
+              <a href="https://github.com/wbmausam220/UrbanPulse-Smart-Transit" class="btn btn-secondary" style="padding: 8px 14px; flex: 1; justify-content: center;" target="_blank"><i class="fab fa-github"></i> Code</a> 
+              <a href="#" class="btn btn-primary" style="padding: 8px 14px; flex: 1; justify-content: center;"><i class="fas fa-external-link-alt"></i> Demo</a>
+            </div>
+          </div>
+
+          <div class="structural-card project-card">
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h3 style="font-size: 1.1rem; font-weight: 600;">healthcare-risk-predictor</h3>
+                <span class="mono-text tech-tag">Python</span>
+              </div>
+              <p style="font-size: 0.88rem; opacity: 0.8;">Data Preprocessing & Scaling; Multi-Model Training: ML algorithms (LR, RF, XGBoost, SVM) Interactive UI; Exploratory Data Analysis (EDA).</p>
+            </div>
+            <div style="margin-top:20px; display: flex; gap: 10px;">
+              <a href="https://github.com/wbmausam220/healthcare-risk-predictor" class="btn btn-secondary" style="padding: 8px 14px; flex: 1; justify-content: center;" target="_blank"><i class="fab fa-github"></i> Code</a> 
+              <a href="#" class="btn btn-primary" style="padding: 8px 14px; flex: 1; justify-content: center;"><i class="fas fa-external-link-alt"></i> Demo</a>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <section id="contact">
+        <h2 class="section-title">Get In Touch</h2>
+        <div class="structural-card" style="max-width: 700px; margin:0 auto; padding: 35px;">
+          <div class="contact-details-grid">
+            <div class="structural-card contact-detail-card">
+              <i class="fas fa-envelope"></i>
+              <p style="word-break: break-all; margin-top: 4px; font-weight: 500;">vmausam541@gmail.com</p>
+            </div>
+            <div class="structural-card contact-detail-card">
+              <i class="fas fa-location-dot"></i>
+              <p style="margin-top: 4px; font-weight: 500;">Uttar Pradesh, India</p>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 12px; justify-content: center; margin-bottom: 30px; flex-wrap: wrap;">
+            <a href="https://www.linkedin.com/in/mausam-verma-aiml/" class="btn btn-secondary" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
+            <a href="https://github.com/wbmausam220" class="btn btn-secondary" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+            <a href="https://wa.me/916307240541" class="btn btn-secondary" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+          </div>
+
+          <form style="display: flex; flex-direction: column; gap: 14px;">
+            <input type="text" placeholder="Your Name" class="form-input">
+            <input type="email" placeholder="Email" class="form-input">
+            <textarea rows="4" placeholder="Message" class="form-input"></textarea>
+            <button type="button" class="btn btn-primary" style="justify-content: center;" onclick="alert('🚀 Message processed successfully!')">Send Message</button>
+          </form>
+        </div>
+      </section>
+
+    </div>
+    <footer>© 2026 Mausam Verma | AI & ML Portfolio.</footer>
+  </div>
+
+  <script>
+    (function() {
+      window.addEventListener('load', () => {
+        const loader = document.getElementById('loading-screen');
+        loader.style.opacity = '0';
+        setTimeout(() => loader.style.visibility = 'hidden', 300);
+      });
+
+      const typingElement = document.getElementById('typingEffect');
+      const words = ["AI/ML Specialist", "Python Neural Architect", "Predictive Systems Developer"];
+      let wordIndex = 0, charIndex = 0, isDeleting = false;
+      function type() {
+        const current = words[wordIndex];
+        if (isDeleting) {
+          typingElement.textContent = current.substring(0, charIndex-1);
+          charIndex--;
+        } else {
+          typingElement.textContent = current.substring(0, charIndex+1);
+          charIndex++;
+        }
+        if (!isDeleting && charIndex === current.length) {
+          setTimeout(() => isDeleting = true, 1800);
+        } else if (isDeleting && charIndex === 0) {
+          isDeleting = false;
+          wordIndex = (wordIndex + 1) % words.length;
+        }
+        setTimeout(type, isDeleting ? 30 : 60);
+      }
+      type();
+
+      const toggle = document.getElementById('themeToggle');
+      toggle.addEventListener('click', () => {
+        document.body.classList.toggle('light-mode');
+        const icon = toggle.querySelector('i');
+        icon.className = document.body.classList.contains('light-mode') ? 'fas fa-sun' : 'fas fa-moon';
+      });
+
+      const progressFills = document.querySelectorAll('.progress-fill');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const fill = entry.target;
+            fill.style.width = fill.getAttribute('data-width') + '%';
+          }
+        });
+      }, { threshold: 0.2 });
+      progressFills.forEach(fill => observer.observe(fill));
+
+      const canvas = document.getElementById('particle-canvas');
+      const ctx = canvas.getContext('2d');
+      let particles = [];
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas();
+      
+      class Particle {
+        constructor() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.size = Math.random() * 1.2 + 0.4;
+          this.speedX = Math.random() * 0.3 - 0.15;
+          this.speedY = Math.random() * 0.3 - 0.15;
+        }
+        update() {
+          this.x += this.speedX;
+          this.y += this.speedY;
+          if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+          if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+        }
+        draw() {
+          ctx.fillStyle = document.body.classList.contains('light-mode') ? 'rgba(59, 130, 246, 0.15)' : 'rgba(59, 130, 246, 0.25)';
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
+          ctx.fill();
+        }
+      }
+      function initParticles(count=40) {
+        particles = [];
+        for(let i=0; i<count; i++) particles.push(new Particle());
+      }
+      initParticles();
+      function animateParticles() {
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        particles.forEach(p => { p.update(); p.draw(); });
+        requestAnimationFrame(animateParticles);
+      }
+      animateParticles();
+    })();
+  </script>
+</body>
+</html>
